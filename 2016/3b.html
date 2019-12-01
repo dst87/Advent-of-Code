@@ -1,0 +1,64 @@
+<html>
+<head>
+	<title>Advent of Code - Day 3 - Part 2</title>
+</head>
+<body>
+<script>
+
+	var input = prompt("Please enter the input");
+	var originalArray = input.split("\n");
+	
+	
+	var possibleTriangles = 0;
+	
+	// Function to assess whether an array of three numbers is a possible triangle
+	function isTriangle(array){
+		var lenA = parseInt(array[0]);
+		var lenB = parseInt(array[1]);
+		var lenC = parseInt(array[2]);
+		
+		return (lenA + lenB > lenC &&
+				lenB + lenC > lenA &&
+				lenA + lenC > lenB);
+	}
+	
+	var inputArray = [];
+	// Split each element into an array of three numbers
+	for (var i = 0; i < originalArray.length; i++) {
+		var newVa = originalArray[i].match(/\S+/g);
+		inputArray.push(newVa);
+	}
+	
+	
+	// Rotate each block of three into new sets of triangle lengths
+	
+	console.log(inputArray);
+	
+	var rotatedArray = [];
+	for (var i = 0; i < inputArray.length; i+=3) {
+		rotatedArray.push([inputArray[i][0],inputArray[i+1][0],inputArray[i+2][0]]);
+		rotatedArray.push([inputArray[i][1],inputArray[i+1][1],inputArray[i+2][1]]);
+		rotatedArray.push([inputArray[i][2],inputArray[i+1][2],inputArray[i+2][2]]);
+	}
+	
+	console.log(rotatedArray);
+	
+	// Check each item in the new array for triangle possibility
+	for (var i = 0; i < rotatedArray.length; i++) {
+		
+		if (isTriangle(rotatedArray[i])){
+			possibleTriangles++;
+		}
+	}
+	
+	
+	
+	
+	alert("There are "+possibleTriangles+" possible triangles in this set.");
+	
+	
+</script>
+
+</body>
+</html>
+

@@ -1,0 +1,88 @@
+<html>
+<head>
+	<title>Advent of Code - Day 1 - Part 1</title>
+</head>
+<body>
+<script>
+
+	var instructions = "R3, L5, R1, R2, L5, R2, R3, L2, L5, R5, L4, L3, R5, L1, R3, R4, R1, L3, R3, L2, L5, L2, R4, R5, R5, L4, L3, L3, R4, R4, R5, L5, L3, R2, R2, L3, L4, L5, R1, R3, L3, R2, L3, R5, L194, L2, L5, R2, R1, R1, L1, L5, L4, R4, R2, R2, L4, L1, R2, R53, R3, L5, R72, R2, L5, R3, L4, R187, L4, L5, L2, R1, R3, R5, L4, L4, R2, R5, L5, L4, L3, R5, L2, R1, R1, R4, L1, R2, L3, R5, L4, R2, L3, R1, L4, R4, L1, L2, R3, L1, L1, R4, R3, L4, R2, R5, L2, L3, L3, L1, R3, R5, R2, R3, R1, R2, L1, L4, L5, L2, R4, R5, L2, R4, R4, L3, R2, R1, L4, R3, L3, L4, L3, L1, R3, L2, R2, L4, L4, L5, R3, R5, R3, L2, R5, L2, L1, L5, L1, R2, R4, L5, R2, L4, L5, L4, L5, L2, L5, L4, R5, R3, R2, R2, L3, R3, L2, L5";
+	//var instructions = prompt("Please enter your route", "e.g. R3, L5, R1, R7");
+	
+	var instructionsArray = instructions.split(", ");
+	
+	//Declaring position and direction
+	//REMINDER:  X is EAST/WEST,   Y is NORTH/SOUTH
+	var position = [];
+	position["x"] = 0;
+	position["y"] = 0;
+	
+	var direction = "N";
+	
+	
+	// Declare the loop from array properties
+	
+	var arrayLength = instructionsArray.length;
+	for (var i = 0; i < arrayLength; i++) {
+		
+		var instruction = instructionsArray[i];
+		
+		// Set direction to turn
+		var turnDirection = instruction.substr(0,1)
+		
+		// Set distance to be travelled 
+		var distance = parseInt(instruction.substr(1));
+		 
+		// Switch based on direction facing
+		// Add/subtract based on turn direction
+		// Change direction
+		switch(direction) {
+			case "N":
+				if(turnDirection == "L"){
+					position["x"]-=distance;
+					direction = "W";
+				}
+				else{
+					position["x"]+=distance;
+					direction = "E";
+				}
+				break;
+			case "E":
+				if(turnDirection == "L"){
+					position["y"]+=distance;
+					direction = "N";
+				}
+				else{
+					position["y"]-=distance;
+					direction = "S";
+				}
+				break;
+			case "S":
+				if(turnDirection == "L"){
+					position["x"]+=distance;
+					direction = "E";
+				}
+				else{
+					position["x"]-=distance;
+					direction = "W";
+				}
+				break;
+			case "W":
+				if(turnDirection == "L"){
+					position["y"]-=distance;
+					direction = "S";
+				}
+				else{
+					position["y"]+=distance;
+					direction = "N";
+				}
+				break;
+		}		
+	}
+	// Add final co-ordinates to derive answer
+	var answer = Math.abs(position["x"]) + Math.abs(position["y"]);
+	window.alert("The final position is at " + position["x"] + "," + position["y"] + " and the total distance is " + answer + " blocks from your current position.");
+	
+
+</script>
+</body>
+</html>

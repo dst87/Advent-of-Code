@@ -1,0 +1,112 @@
+<html>
+<head>
+	<title>Advent of Code - Day 4 - Part 2</title>
+</head>
+<body>
+<script>
+
+	
+	var sumOfNumbers = 0;
+	
+	var originalInput = prompt('Please enter the input');
+	var originalInputArray = originalInput.split("\n");
+	var translatedStrings = [];
+	
+	
+	for (lineNumber = 0; lineNumber < originalInputArray.length; lineNumber++){
+	
+		var input = originalInputArray[lineNumber];
+		
+		var firstNumberIndex = input.search(/\d/);
+	
+		var numberToAdd = parseInt(input.substr(firstNumberIndex,3));
+		var checksum = input.substr(input.indexOf("[")+1,5);
+		var stringToAnalyse = input.substr(0,firstNumberIndex-1);
+	
+		//console.log(input);
+		//console.log(stringToAnalyse);
+		//console.log(numberToAdd);
+		//console.log(checksum);
+	
+		// Array with object character: and count:
+		var counts = [];
+	
+		for (var i = 0; i < stringToAnalyse.length; i++) {
+			// Get the current character in a string
+			var character = stringToAnalyse.charAt(i);
+		
+			if (character == "-"){continue;}
+		
+			// Get the current count of this character in the array
+	
+			var objectExists = false;
+		
+			for (var z = 0; z < counts.length; z++) {
+				if (counts[z].character == character) {
+					counts[z].count++;
+					objectExists = true;
+					break;
+				}
+			}
+		
+			if (!objectExists) {
+				counts.push({character:character, count:1});
+			}
+		}
+
+		counts.sort(function(a,b) {
+			if (a.count != b.count){
+				return b.count - a.count;
+			}
+			if (a.character < b.character) return -1;
+			if (a.character > b.character) return 1;
+			return 0;
+		});
+	
+	
+		var compareString = "";
+	
+		for (i = 0; i < checksum.length; i++) {
+			compareString += counts[i].character;
+		}
+	
+	
+		//if (compareString == checksum){
+
+			
+			
+			var translatedString = "";
+			for (var q = 0; q < stringToAnalyse.length; q++) {
+				var character = stringToAnalyse[q];
+				
+				// First check if character is a dash, and convert to space
+				if (character == "-") {
+					translatedString += " ";
+				}
+				
+				// Then check if it's a lowercase or upercase letter
+				else if (character.match(/[a-z]/i)){
+					
+					var code = character.charCodeAt(0);
+					
+					// Lowercase letters
+					if ((code >= 97) && (code <= 122)) {
+						translatedString += String.fromCharCode(((code - 97 + numberToAdd) % 26) + 97);
+					}
+					
+				}
+			}
+			
+			console.log(translatedString+" "+numberToAdd);
+
+		//}
+	
+	}
+	
+	alert("The sum you're looking for is "+sumOfNumbers);
+	
+</script>
+
+</body>
+</html>
+

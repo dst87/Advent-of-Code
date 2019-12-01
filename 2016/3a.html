@@ -1,0 +1,46 @@
+<html>
+<head>
+	<title>Advent of Code - Day 3 - Part 1</title>
+</head>
+<body>
+<script>
+
+	var input = prompt("Please enter the input");
+	var inputArray = input.split("\n");
+	
+	var possibleTriangles = 0;
+	
+	function sortNumerically(a,b) {
+		return a - b;
+	}
+	
+	for (var i = 0; i < inputArray.length; i++) {
+		var currentLengths = inputArray[i];
+		currentLengthsArray = currentLengths.match(/\S+/g);
+		currentLengthsArray = currentLengthsArray.sort(sortNumerically);		
+		//console.log(currentLengthsArray);
+		
+		var small = parseInt(currentLengthsArray[0]);
+		var med = parseInt(currentLengthsArray[1]);
+		var large = parseInt(currentLengthsArray[2]);
+				
+		if (small+med > large){
+			if(small+large > med){
+				if(med+large > small){
+					possibleTriangles++;
+				}
+			}
+		}
+		
+				
+	}
+	
+	console.log(possibleTriangles);
+	
+	
+</script>
+	
+	182 is NOT correct (too low);
+</body>
+</html>
+

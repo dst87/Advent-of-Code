@@ -1,0 +1,33 @@
+<html>
+<head>
+	<title>Advent of Code - Day 5 - Part 1</title>
+</head>
+<body>
+<script src="js/md5.min.js"></script>
+<script>
+
+	var doorID = prompt("Please enter the Door ID");
+	var password = "";
+	var passLen = 0;
+	
+	for (var i = 0; passLen < 8; i++) {
+		
+		var stringToHash = doorID+i;
+		var hash = md5(stringToHash);
+		
+		console.log(hash+" : "+stringToHash);
+
+		if ( hash.substr(0,5) == "00000" ) {
+			password += hash.charAt(5);
+			passLen++;
+		}
+	}
+	
+	alert("The password for this door is: "+password);
+	
+	
+</script>
+
+</body>
+</html>
+
