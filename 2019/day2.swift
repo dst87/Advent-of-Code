@@ -52,25 +52,20 @@ func part2(_ array: [Int], target: Int) -> String {
 	
 	var Intcode: [Int] = []
 	
-	var noun: Int = 0
-	var verb: Int = 0
-	
-	for n in 0...99 {
-		for v in 0...99 {
+	for noun in 0...99 {
+		for verb in 0...99 {
 			Intcode = array
-			Intcode[1] = n
-			Intcode[2] = v
+			Intcode[1] = noun
+			Intcode[2] = verb
 			
 			let result: Int! = getOutputFrom(array:Intcode)
 			if result == target {
-				noun = n
-				verb = v
+				let answer = 100 * noun + verb
+				return String(format: "Target: %d \n Noun: %d \n Verb: %d \n Answer: %d", target, noun, verb, answer)
 			}
 		}
 	}
-	
-	let answer = 100 * noun + verb
-	return String(format: "Target: %d \n Noun: %d \n Verb: %d \n Answer: %d", target, noun, verb, answer)
+	return "No answer found."
 }
 
 
