@@ -42,13 +42,13 @@ let secondPathInstructions = createInstructionsFrom(pathString:secondPathString)
 // Mapping each route
 // ******************
 
-func visitedCoordinatesForRouteWith(instructions:[(direction:String, distance:Int)]) -> Set<[Int]> {
+func visitedCoordinatesForRouteWith(instructions:[(direction:String, distance:Int)]) -> [[Int]] {
 	let instructions = instructions
 	
 	var x: Int = 0
 	var y: Int = 0
 	
-	var returnCoordinates: Set<[Int]> = Set()
+	var returnCoordinates: [[Int]] = []
 	
 	for instruction in instructions {
 		switch instruction.direction {
@@ -56,25 +56,25 @@ func visitedCoordinatesForRouteWith(instructions:[(direction:String, distance:In
 			for _ in 1...instruction.distance {
 				y += 1
 				let newCoordinate: [Int] = [x,y]
-				returnCoordinates.insert(newCoordinate)
+				returnCoordinates.append(newCoordinate)
 			}
 		case "D" :
 			for _ in 1...instruction.distance {
 				y -= 1
 				let newCoordinate: [Int] = [x,y]
-				returnCoordinates.insert(newCoordinate)
+				returnCoordinates.append(newCoordinate)
 			}
 		case "R" :
 			for _ in 1...instruction.distance {
 				x += 1
 				let newCoordinate: [Int] = [x,y]
-				returnCoordinates.insert(newCoordinate)
+				returnCoordinates.append(newCoordinate)
 			}
 		case "L" :
 			for _ in 1...instruction.distance {
 				x -= 1
 				let newCoordinate: [Int] = [x,y]
-				returnCoordinates.insert(newCoordinate)
+				returnCoordinates.append(newCoordinate)
 			}
 		default : 
 			print("Failed Instructions")	
@@ -90,10 +90,34 @@ let secondPathCoordinates = visitedCoordinatesForRouteWith(instructions:secondPa
 // Finding Intersections
 // *********************
 
-let intersections = firstPathCoordinates.filter(secondPathCoordinates.contains)
+var firstCoordsSet: Set<[Int]> = Set()
+var secondCoordsSet: Set<[Int]> = Set()
+
+for coord in firstPathCoordinates {
+	firstCoordsSet.insert(coord)
+}
+
+for coord in secondPathCoordinates {
+	secondCoordsSet.insert(coord)
+}
+
+let intersections = firstCoordsSet.filter(secondCoordsSet.contains)
+var manhattanDistances: [Int] = []
+for intersection in intersections {
+	manhattanDistances.append(abs(intersection[0])+abs(intersection[1]))
+}
+let shortestManhattanDistance = manhattanDistances.sorted()[0]
+print(String(format:"Part 1\nThe closest intersections is at distance: %d\n",shortestManhattanDistance))
+
+// **************************
+// Shortest Distance (Part 2)
+// **************************
+
 var distances: [Int] = []
 for intersection in intersections {
-	distances.append(abs(intersection[0])+abs(intersection[1]))
+	let dist1: Int = firstPathCoordinates.firstIndex(of:intersection)!+1
+	let dist2: Int = secondPathCoordinates.firstIndex(of:intersection)!+1
+	distances.append(dist1+dist2)
 }
 let shortestDistance = distances.sorted()[0]
-print(String(format:"The closest intersections is at distance: %d",shortestDistance))
+print(String(format:"Part 2\nThe closest intersections is at distance: %d\n",shortestDistance))
