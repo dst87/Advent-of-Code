@@ -42,13 +42,13 @@ let secondPathInstructions = createInstructionsFrom(pathString:secondPathString)
 // Mapping each route
 // ******************
 
-func visitedCoordinatesForRouteWith(instructions:[(direction:String, distance:Int)]) -> [[Int]] {
+func visitedCoordinatesForRouteWith(instructions:[(direction:String, distance:Int)]) -> Set<[Int]> {
 	let instructions = instructions
 	
 	var x: Int = 0
 	var y: Int = 0
 	
-	var returnCoordinates: [[Int]] = []
+	var returnCoordinates: Set<[Int]> = Set()
 	
 	for instruction in instructions {
 		switch instruction.direction {
@@ -56,25 +56,25 @@ func visitedCoordinatesForRouteWith(instructions:[(direction:String, distance:In
 			for _ in 1...instruction.distance {
 				y += 1
 				let newCoordinate: [Int] = [x,y]
-				returnCoordinates.append(newCoordinate)
+				returnCoordinates.insert(newCoordinate)
 			}
 		case "D" :
 			for _ in 1...instruction.distance {
 				y -= 1
 				let newCoordinate: [Int] = [x,y]
-				returnCoordinates.append(newCoordinate)
+				returnCoordinates.insert(newCoordinate)
 			}
 		case "R" :
 			for _ in 1...instruction.distance {
 				x += 1
 				let newCoordinate: [Int] = [x,y]
-				returnCoordinates.append(newCoordinate)
+				returnCoordinates.insert(newCoordinate)
 			}
 		case "L" :
 			for _ in 1...instruction.distance {
 				x -= 1
 				let newCoordinate: [Int] = [x,y]
-				returnCoordinates.append(newCoordinate)
+				returnCoordinates.insert(newCoordinate)
 			}
 		default : 
 			print("Failed Instructions")	
@@ -83,8 +83,8 @@ func visitedCoordinatesForRouteWith(instructions:[(direction:String, distance:In
 	return returnCoordinates
 }
 
-let firstPathCoordinates: [[Int]] = visitedCoordinatesForRouteWith(instructions:firstPathInstructions)
-let secondPathCoordinates: [[Int]] = visitedCoordinatesForRouteWith(instructions:secondPathInstructions)
+let firstPathCoordinates = visitedCoordinatesForRouteWith(instructions:firstPathInstructions)
+let secondPathCoordinates = visitedCoordinatesForRouteWith(instructions:secondPathInstructions)
 
 // *********************
 // Finding Intersections
