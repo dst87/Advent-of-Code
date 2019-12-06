@@ -4,7 +4,6 @@ import Foundation
 // Inputs & Setup
 // **************
 
-let userInput: Int = 1
 let inputURL: URL = URL(fileURLWithPath: "input/day5.txt")
 var input: String = ""
 if let loadedFile = try? String(contentsOf: inputURL, encoding: .utf8) {
@@ -18,7 +17,6 @@ if let loadedFile = try? String(contentsOf: inputURL, encoding: .utf8) {
 
 // Parse Input
 // Return [Int] in format [Opcode, mode1, mode2, mode3]
-
 func parseInstruction(_ instruction: String) -> [Int] {
 	let instructionLength: Int = instruction.count
 	switch instructionLength {
@@ -48,6 +46,83 @@ func parseInstruction(_ instruction: String) -> [Int] {
 	}
 }
 
+func runDiagnostics(program:[Int], input:Int) {
+	var intcode = program
+	var i: Int = 0
+	loop: while i < intcode.count {
+	
+		let instruction: [Int] = parseInstruction(String(intcode[i]))
+	
+		let pos1IsValue: Bool = instruction[1] == 0 ? false : true
+		let pos2IsValue: Bool = instruction[2] == 0 ? false : true
+		let pos3IsValue: Bool = instruction[3] == 0 ? false : true
+	
+		switch instruction[0] {
+		case 1 :
+			// Addition
+			let addend1 = pos1IsValue ? intcode[i+1] : intcode[intcode[i+1]]
+			let addend2 = pos2IsValue ? intcode[i+2] : intcode[intcode[i+2]]
+			let result = addend1 + addend2
+			intcode[intcode[i+3]] = result
+			i += 4
+		case 2 :
+			// Multiplication
+			let factor1 = pos1IsValue ? intcode[i+1] : intcode[intcode[i+1]]
+			let factor2 = pos2IsValue ? intcode[i+2] : intcode[intcode[i+2]]
+			let result = factor1 * factor2
+			intcode[intcode[i+3]] = result
+			i += 4
+		case 3 :
+			// Take user input
+			intcode[intcode[i+1]] = input
+			i += 2
+		case 4 :
+			// Provide Output
+			let output = pos1IsValue ? intcode[i+1] : intcode[intcode[i+1]]
+			print(String(format:"The diagnostic code for System ID %d is %d",input,output))
+			i += 2
+		case 5: 
+			//Jump-if-true
+			print("Case 5")
+			let parameter = pos1IsValue ? intcode[i+1] : intcode[intcode[i+1]]
+			if parameter != 0 {
+				let newPosition = pos2IsValue ? intcode[i+2] : intcode[intcode[i+2]]
+				i = newPosition
+			} else { i += 3 }
+		case 6:
+			//Jump-if-false
+			print("Case 6")
+			let parameter = pos1IsValue ? intcode[i+1] : intcode[intcode[i+1]]
+			if parameter == 0 {
+				let newPosition = pos2IsValue ? intcode[i+2] : intcode[intcode[i+2]]
+				i = newPosition
+			} else { i += 3 }
+		case 7 :
+			// Set 1 if 1st < 2nd, else set 0
+			print("Case 7")
+			let param1 = pos1IsValue ? intcode[i+1] : intcode[intcode[i+1]]
+			let param2 = pos2IsValue ? intcode[i+2] : intcode[intcode[i+2]]
+			let result = param1 < param2 ? 1 : 0
+			intcode[intcode[i+3]] = result
+			i += 4
+		case 8 :
+			// Set 1 if 1st == 2nd, else set 0
+			print("Case 8")
+			let param1 = pos1IsValue ? intcode[i+1] : intcode[intcode[i+1]]
+			let param2 = pos2IsValue ? intcode[i+2] : intcode[intcode[i+2]]
+			let result = param1 == param2 ? 1 : 0
+			intcode[intcode[i+3]] = result
+			i += 4
+		case 99 :
+			print("End of program (99)")
+			break loop
+		default :
+			print("Something went wrong")
+			break loop
+	 	}
+	}	
+}
+
 // ****************
 // Processing Input
 // ****************
@@ -59,47 +134,9 @@ for string in programStrings {
 	intcode.append(intFromString)
 }
 
-var i: Int = 0
-loop: while i < intcode.count {
-	
-	let instruction: [Int] = parseInstruction(String(intcode[i]))
-	
-	let pos1IsValue: Bool = instruction[1] == 0 ? false : true
-	let pos2IsValue: Bool = instruction[2] == 0 ? false : true
-	let pos3IsValue: Bool = instruction[3] == 0 ? false : true
-	
-	switch instruction[0] {
-	case 1 :
-		// Addition
-		let addend1 = pos1IsValue ? intcode[i+1] : intcode[intcode[i+1]]
-		let addend2 = pos2IsValue ? intcode[i+2] : intcode[intcode[i+2]]
-		let result = addend1 + addend2
-		intcode[intcode[i+3]] = result
-		i += 4
-	case 2 :
-		// Multiplication
-		let factor1 = pos1IsValue ? intcode[i+1] : intcode[intcode[i+1]]
-		let factor2 = pos2IsValue ? intcode[i+2] : intcode[intcode[i+2]]
-		let result = factor1 * factor2
-		intcode[intcode[i+3]] = result
-		i += 4
-	case 3 :
-		intcode[intcode[i+1]] = userInput
-		i += 2
-	case 4 :
-		let output = pos1IsValue ? intcode[i+1] : intcode[intcode[i+1]]
-		print(String(format:"The diagnostic code is %d", output))
-		i += 2
-	case 99 :
-		print("End of program (99)")
-		break loop
-	default :
-		print("Something went wrong")
-		break loop
- 	}
-}
+// *******************
+// Running the Program
+// *******************
 
-
-
-
-
+runDiagnostics(program:intcode, input:1)
+runDiagnostics(program:intcode, input:5)
