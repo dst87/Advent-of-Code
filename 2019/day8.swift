@@ -11,8 +11,8 @@ if let loadedFile = try? String(contentsOf: inputURL, encoding: .utf8) {
     print("File loaded successfully\n")		
 } else { print("Error loading file\n") }
 
-let width: Int = 6
-let height: Int = 25
+let height: Int = 6
+let width: Int = 25
 
 let pixelsPerLayer: Int = width * height
 
@@ -63,10 +63,28 @@ let result: Int = oneCount * twoCount
 
 print(String(format:"Checksum for image verification is %d.\n", result))
 
-
 // **********************
 // Get the Answer (Pt. 2)
 // **********************
 
 print("Part 2")
 
+var imageString = ""
+
+for i in 0...pixelsPerLayer-1 {
+	for layer in layers {
+		let layerString: String = String(layer)
+		let charIndex = layerString.index(layerString.startIndex, offsetBy:i)
+		let char = layerString[charIndex]
+		if char == "0" || char == "1" {
+			let pixel = char == "0" ? " " : "■"
+			imageString += String(pixel)
+			break
+		}
+	}
+}
+
+for i in 0..<height {
+	print(imageString.prefix(width))
+	imageString.removeFirst(width)
+}
