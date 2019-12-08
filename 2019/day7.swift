@@ -182,6 +182,3 @@ let sortedResults = results.sorted(by: >)
 let winner = sortedResults[0]
 print("Part 1")
 print(String(format:"The highest attainable thurster signal is %d.\n",winner))
-
-
-print("Part 2")
