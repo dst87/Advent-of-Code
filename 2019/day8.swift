@@ -84,7 +84,7 @@ for i in 0...pixelsPerLayer-1 {
 	}
 }
 
-for i in 0..<height {
+for _ in 0..<height {
 	print(imageString.prefix(width))
 	imageString.removeFirst(width)
 }
