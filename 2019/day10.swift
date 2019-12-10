@@ -44,7 +44,7 @@ while y < space.count {
 	}
 	y += 1
 }
-print(asteroidLocations)
+//print(asteroidLocations)
 // ****************
 // Part 1
 // ****************
@@ -59,26 +59,59 @@ for station in asteroidLocations {
 	let stationx: Int! = station["x"]
 	let stationy: Int! = station["y"]
 	var asteroidCount: Int = 0
+	
+	
 	for asteroid in asteroidLocations {
+		if station == asteroid { continue }
 		let asteroidx: Int! = asteroid["x"]
 		let asteroidy: Int! = asteroid["y"]
 		var isReachable: Int = 1
+		
 		if asteroidx == stationx {
+			// Asteroid and Station are horizontally aligned
 			for blocker in asteroidLocations {
+				if blocker == asteroid || blocker == station { continue }
 				let blockerx: Int! = blocker["x"]
 				let blockery: Int! = blocker["y"]
-				if blockerx == asteroidx && stationy <= blockery && blockery <= asteroidy {
-					isReachable = 0
+				if blockerx == asteroidx {
+					 if (stationy < blockery && blockery < asteroidy) ||
+					    (stationy > blockery && blockery > asteroidy) {
+					    	isReachable = 0
+							break
+					    }
+				}
+			}
+		}
+		else if asteroidy == stationy {
+			// Asteroid and Station are veritcally aligned
+			for blocker in asteroidLocations {
+				if blocker == asteroid || blocker == station { continue }
+				let blockerx: Int! = blocker["x"]
+				let blockery: Int! = blocker["y"]
+				if blockery == asteroidy {
+					 if (stationx < blockerx && blockerx < asteroidx) ||
+					    (stationx > blockerx && blockerx > asteroidx) {
+					    	isReachable = 0
+							break
+					    }
 				}
 			}
 		}
 		else {
 			let slope = Float((asteroidy-stationy)/(asteroidx-stationx))
 			for blocker in asteroidLocations {
+				if blocker == asteroid || blocker == station { continue }
 				let blockerx: Int! = blocker["x"]
 				let blockery: Int! = blocker["y"]
-				if stationx <= blockerx && blockerx <= asteroidx && stationy <= blockery && blockery <= asteroidy {
+				if (stationx < blockerx && blockerx < asteroidx && stationy < blockery && blockery < asteroidy) ||
+				   (stationx < blockerx && blockerx < asteroidx && stationy > blockery && blockery > asteroidy) ||
+				   (stationx > blockerx && blockerx > asteroidx && stationy < blockery && blockery < asteroidy) ||
+				   (stationx > blockerx && blockerx > asteroidx && stationy > blockery && blockery > asteroidy) {
 					// Potential Blocker (In range)
+					print(String(format:"\nBlocker: %@", blocker))
+					print(String(format:"Station: %@", station))
+					print(String(format:"Asteroid: %@", asteroid))
+					print("Potential Blocker\n")
 					let lhs = Float(blockery - stationy)
 					let rhs = Float(slope * Float(blockery - stationy))
 					if lhs == rhs {
@@ -93,6 +126,6 @@ for station in asteroidLocations {
 	}
 	counts.append(asteroidCount)
 }
-print(counts)
+//print(counts)
 let sortedCounts = counts.sorted(by: >)
 print(sortedCounts[0])
