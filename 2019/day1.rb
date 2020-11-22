@@ -7,13 +7,14 @@ Ruby before and wanted to get a wee taste of it.
 I may use Ruby for AoC 2020!
 =end
 
+require 'colorize'
 
 arrayOfModuleMasses = File.read("input/day1.txt").split
 
 if arrayOfModuleMasses.length != nil
 	puts "File loaded successfully!"
 	
-	puts "Part 1"
+	puts "\nPart 1".red.on_black.underline
 	
 	fuelRequired = 0
 	
@@ -24,7 +25,7 @@ if arrayOfModuleMasses.length != nil
 	
 	puts "Total fuel required: #{fuelRequired}"
 	
-	puts "Part 2"
+	puts "\nPart 2".red.on_black.underline
 	
 	fuelRequired = 0
 	
