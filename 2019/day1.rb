@@ -4,7 +4,7 @@
 I decided to re-do Day 1 in Ruby as I've never used
 Ruby before and wanted to get a wee taste of it.
 
-I may use Ruby for AoC 2020!
+I may use Ruby for AoC 2020!!
 =end
 
 require 'colorize'
