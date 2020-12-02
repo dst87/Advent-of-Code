@@ -41,12 +41,18 @@ end
 
 allExpenses.sort!
 
+done = false
+
 allExpenses.each do |exp1|
+	break if done
 	allExpenses.each do |exp2|
+		break if done
 		next if exp2 == exp1
 		allExpenses.each do |exp3|
+			break if done
 			next if exp3 == exp2
 			if exp1 + exp2 + exp3 == target
+				done = true
 				product = exp1 * exp2 * exp3
 				puts "The required entries are #{exp1}, #{exp2}, and #{exp3}."
 				puts "The required answer is #{product}."
