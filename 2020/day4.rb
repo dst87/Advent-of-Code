@@ -112,4 +112,4 @@ validPassDicts.each do |passport|
 	end
 end
 
-puts "Number of valid(ish) passports: #{validPassportCount}"
+puts "Number of valid passports: #{validPassportCount}"
