@@ -27,7 +27,7 @@ family_responses.each do |response|
 		chars = member.split('')
 		array_of_answers.push(chars)
 	end
-	count += eval(array_of_answers.map(&:to_s).join("&")).count
+	count += array_of_answers.inject(:&).count
 end
 
 puts "The answer is: #{count}."
