@@ -37,8 +37,15 @@ puts "\nPart 2".red.on_black.underline
 # It's very elegant, and I can work out how and why it works, but I'd never
 # have arrived at the solution myself.
 
+# Creating a dictionary, storing the number of ways to arrive at THAT adapter
+
 number_of_links = Hash.new
 number_of_links[0] = 1
+
+# The number of ways to arrive at an adapter is the sum of the ways you can 
+# arrive at adapters with a rating 1, 2, or 3 lower than the current adapter.
+# This sum is set as the value for each adapter, so we just need to look at
+# the value for the _final_ adapter to know the total permutations possible.
 
 ratings.each do |rating|
 	next if rating == 0
