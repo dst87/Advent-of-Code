@@ -64,7 +64,7 @@ instructions.each do |instruction|
 	end
 end
 
-unsigned_position = $position.map { |n| n < 0 ? -n : n }
+unsigned_position = $position.map { |n| n.abs() }
 answer = unsigned_position.reduce(0, :+)
 puts "Manhattan distance between here and where we started: #{answer}."
 
@@ -124,6 +124,6 @@ instructions.each do |instruction|
 	end
 end
 
-unsigned_position = $position.map { |n| n < 0 ? -n : n }
+unsigned_position = $position.map { |n| n.abs() }
 answer = unsigned_position.reduce(0, :+)
 puts "Manhattan distance between here and where we started: #{answer}."
