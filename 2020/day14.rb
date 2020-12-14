@@ -8,7 +8,7 @@ $add_mask = 0
 $or_mask = 0
 
 def process_mask(mask)
-	$or_mask = (mask.gsub(/X/,"0")).to_i(2)
+	$or_mask = mask.gsub(/X/,"0").to_i(2)
 	$and_mask = mask.gsub(/X/,"1").to_i(2)
 end
 
