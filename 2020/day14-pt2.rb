@@ -16,7 +16,6 @@ def process_mask(mask)
 	
 	$indices_of_x = []
 	perm_count_2 = ""
-	mask.length
 	mask.length.times {|i| $indices_of_x << i if mask[i] == 'X'}
 	mask.length.times {|i| perm_count_2 << "1" if mask[i] == 'X'}
 	(0..perm_count_2.to_i(2)).each do |i|
