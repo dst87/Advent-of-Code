@@ -25,7 +25,7 @@ def main_program()
 	$program.each do |instruction|
 		case instruction[0..2]
 		when "mas"
-			process_mask(instruction[7..-1])
+			process_mask(instruction[7..])
 		when "mem"
 			update_memory(instruction)
 		else
