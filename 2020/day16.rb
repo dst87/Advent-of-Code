@@ -9,9 +9,9 @@ rules_strings = notes[0].split("\n")
 
 my_ticket_string = notes[1]
 
-puts "\nPart 1".red.on_black.underline
+# This may be the solution I'm least proud of. Part 2 especially is a real mess.
 
-# For part 1, let's just build an array of all valid values for any field
+puts "\nPart 1".red.on_black.underline
 
 $valid_values = []
 
@@ -64,10 +64,6 @@ tickets.each do |ticket|
 		valid_tickets << new_ticket
 	end
 end
-
-# Let's go through each 'rule' and find the index of the field that matches.
-# For subsequent fields, skip fields in the positions that have been matched already.
-# Store this in a Hash in the form field_id >> ticket_index
 
 field_map = Hash.new
 
