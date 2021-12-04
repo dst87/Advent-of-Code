@@ -6,4 +6,4 @@ Incomplete and mostly incompetent.
 
 * 2016 and 2017 attempted in PHP
 * 2019 attempted in Swift
-* 2020 is being attempted in Ruby
+* 2020 and 2021 attempted in Ruby
