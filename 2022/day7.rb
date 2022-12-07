@@ -56,4 +56,4 @@ diskSize = 70000000
 freeSpace = diskSize - dirSizes["/"]
 needToFree = updateSize - freeSpace
 
-puts dirSizes.values.sort.select { |n| n >= needToFree }.first
+puts dirSizes.values.sort.find { |n| n >= needToFree }
