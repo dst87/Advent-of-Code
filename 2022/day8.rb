@@ -1,7 +1,5 @@
 #!/usr/bin/env ruby
-
 require 'colorize'
-require 'set'
 
 $lines = File.read("input/day8.txt").split("\n").map {|r| r.split("").map!(&:to_i)}
 $yLines = $lines.transpose
