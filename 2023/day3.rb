@@ -17,6 +17,8 @@ $schematic = File.read("input/day3.txt").split("\n")
 $maxHeight = $schematic.count
 $maxLength = $schematic[0].length
 
+$partNumbers = []
+$possibleGears = Hash.new
 
 def parseLine(line)
 	arrayOfMatches = []
@@ -29,7 +31,7 @@ def parseLine(line)
 	return arrayOfMatches
 end
 
-def goodPart?(m, lineNumber)
+def processPart(m, lineNumber)
 	goodPart = false
 	lStart = [lineNumber-1, 0].max
 	lEnd = [lineNumber+1, $maxHeight-1].min
@@ -40,28 +42,39 @@ def goodPart?(m, lineNumber)
 	(lStart..lEnd).each do |l|
 		(iStart..iEnd).each do |i|
 			goodPart = true if $schematic[l][i].match?(/[^\d.]/)
+			if $schematic[l][i] == "*"
+				$possibleGears["#{l},#{i}"] = [] if $possibleGears["#{l},#{i}"] == nil
+				$possibleGears["#{l},#{i}"] << m[:n]
+			end
 		end
 	end
 	
-	return goodPart
+	$partNumbers.push(m[:n]) if goodPart
 end
 
-partNumbers = []
+
 
 $schematic.each_with_index do |line, i|
 	matches = parseLine(line)
 	matches.each do |match|
-		partNumbers.push(match[:n]) if goodPart?(match, i)
+		processPart(match,i)
 	end
 end
 
-sumOfParts = partNumbers.inject(0, :+)
+sumOfParts = $partNumbers.inject(0, :+)
 
 puts "\nPart 1".red.on_black.underline
 
 puts "#{sumOfParts} is the sum of part numbers."
 
-# puts "\nPart 2".red.on_black.underline
-# 
-# puts "#{sumOfParts} is the sum of part numbers."
+puts "\nPart 2".red.on_black.underline
 
+sumOfGearRatios = 0
+
+$possibleGears.each do |k,v|
+	if v.count == 2
+		sumOfGearRatios += v.inject(:*)
+	end
+end
+
+puts "#{sumOfGearRatios} is the sum of all of the gear ratios."
