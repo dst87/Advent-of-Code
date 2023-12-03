@@ -17,7 +17,6 @@ $schematic = File.read("input/day3.txt").split("\n")
 $maxHeight = $schematic.count
 $maxLength = $schematic[0].length
 
-puts "\nPart 1".red.on_black.underline
 
 def parseLine(line)
 	arrayOfMatches = []
@@ -31,26 +30,20 @@ def parseLine(line)
 end
 
 def goodPart?(m, lineNumber)
-	c = ""
-	iBefore = m[:i] - 1
-	iBefore = nil if iBefore < 0
-	iAfter = m[:i] + m[:l]
-	iAfter = nil if iAfter > $maxLength
-	iStart = iBefore || 0
-	iEnd = iAfter || $maxLength-1
+	goodPart = false
+	lStart = [lineNumber-1, 0].max
+	lEnd = [lineNumber+1, $maxHeight-1].min
 	
-	# Get chars on same line
-	c << $schematic[lineNumber][iStart..iEnd]
-	
-	# Get chars on the previous line
-	if lineNumber-1 >= 0
-		c << $schematic[lineNumber-1][iStart..iEnd]
+	iStart = [m[:i]-1,0].max
+	iEnd = [m[:i]+m[:l],$maxLength-1].min
+
+	(lStart..lEnd).each do |l|
+		(iStart..iEnd).each do |i|
+			goodPart = true if $schematic[l][i].match?(/[^\d.]/)
+		end
 	end
 	
-	if lineNumber+1 < $maxHeight
-		c << $schematic[lineNumber+1][iStart..iEnd]
-	end
-	return c.match?(/[^\d.]/)
+	return goodPart
 end
 
 partNumbers = []
@@ -64,5 +57,11 @@ end
 
 sumOfParts = partNumbers.inject(0, :+)
 
+puts "\nPart 1".red.on_black.underline
+
 puts "#{sumOfParts} is the sum of part numbers."
+
+# puts "\nPart 2".red.on_black.underline
+# 
+# puts "#{sumOfParts} is the sum of part numbers."
 
